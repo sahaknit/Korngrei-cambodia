@@ -5,7 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "components/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import { BsCartPlus, BsSearch } from "react-icons/bs";
+import { BsCartPlus, BsSearch, BsTelegram } from "react-icons/bs";
+
+// Telegram Bot Configuration
+const TELEGRAM_BOT_TOKEN = "8783022884:AAG3FhqvlHo5QHWtaRBVbVF4MPf62ogeryQ";
+const TELEGRAM_CHAT_ID = "-5093434782";
 
 // --- 1. Define ProductItem type with optional translated fields ---
 interface ProductItem {
@@ -233,6 +237,42 @@ const ShopPage = () => {
 
   const t = translations[language] || translations['en']; // Fallback to 'en'
 
+  // --- Function to send product to Telegram ---
+  const handleSendToTelegram = async (product: ProductItem) => {
+    const productName = language === 'km' && product.name_km ? product.name_km : product.name;
+    const productDescription = language === 'km' && product.description_km ? product.description_km : product.description;
+    
+    const message = `🛍️ *New Product Share*\n\n*${productName}*\n\n${productDescription}\n\n💰 Price: ${product.price}\n\n🔗 Link: ${window.location.origin}${product.link}`;
+    
+    try {
+      // First, send the photo with caption
+      const formData = new FormData();
+      formData.append('chat_id', TELEGRAM_CHAT_ID);
+      
+      // Get the image from the public path
+      const imageUrl = `${window.location.origin}${product.imageThumbnail}`;
+      formData.append('photo', imageUrl);
+      formData.append('caption', message);
+      formData.append('parse_mode', 'Markdown');
+      
+      const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const result = await response.json();
+      
+      if (result.ok) {
+        alert('✅ Product sent to Telegram group successfully!');
+      } else {
+        alert('❌ Failed to send to Telegram: ' + (result.description || 'Unknown error'));
+      }
+    } catch (error) {
+      console.error('Error sending to Telegram:', error);
+      alert('❌ Error sending to Telegram. Please try again.');
+    }
+  };
+
   // --- Get Unique Categories for Filter Buttons ---
   const categories = useMemo(() => {
     const cats = matchaSets
@@ -373,6 +413,14 @@ const ShopPage = () => {
                         {productDescription}
                       </p>
                     </div>
+                    {/* Telegram Share Button */}
+                    <button
+                      onClick={() => handleSendToTelegram(product)}
+                      className="inline-flex items-center justify-center w-full px-4 py-2 font-bold text-white transition-all duration-300 bg-[#0088cc] hover:bg-[#0077b5] rounded-lg shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#0088cc] focus:ring-offset-2 font-[family-name:var(--font-kantumruy)] mb-3"
+                    >
+                      <BsTelegram size={18} className="mr-2" />
+                      Send to Telegram
+                    </button>
                     <Link href={product.link} passHref legacyBehavior>
                       <a
                         target="_blank"
