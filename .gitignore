@@ -1,12 +1,5 @@
-```
 # Dependencies
 node_modules/
-
-# Build outputs
-dist/
-build/
-.next/
-out/
 
 # Environment variables
 .env
@@ -22,27 +15,61 @@ __pycache__/
 env/
 venv/
 .venv/
-.ENV
-
-# Logs
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
 *.log
-
-# OS generated files
+.git/modules/
 .DS_Store
-Thumbs.db
-
-# IDE
+.hg
+.svn
+.well-known/
 .vscode/
 .idea/
 *.swp
 *.swo
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# Temporary files
+*~
+dist/
+build/
+target/
+.DS_Store
+Thumbs.db
 *.tmp
 *.temp
-```
+*.bak
+*.backup
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
+htmlcov/
+.coverage*
+.pytest_cache/
+.mypy_cache/
+.julia/
+zig-cache/
+zig-out/
