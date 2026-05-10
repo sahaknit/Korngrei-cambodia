@@ -1,69 +1,93 @@
-// components/AboutSection.tsx
 "use client";
 
 import React from "react";
 import Image from "next/image";
-// 1. Import the useLanguage hook and translations
 import { useLanguage } from "components/context/LanguageContext";
 import { translations } from "@/lib/translations";
 
 const AboutSection = () => {
-  // 2. Use the hook to get the current language
   const { language } = useLanguage();
-  // 3. Get the translation object for the current language
   const t = translations[language];
 
+  const stats = [
+    { value: "100%", label: "Handcrafted" },
+    { value: "KH", label: "Made in Cambodia" },
+    { value: "∞", label: "Passion & Care" },
+  ];
+
   return (
-    <section id="about" className="relative bg-transparent px-6 sm:px-12 lg:px-20">
-      {/* Section Header */}
-      <div className="my-12 pb-8 md:pb-24">
-        <h1 className="text-center font-bold text-4xl text-[#386c00] font-[family-name:var(--font-kantumruy)]">
-          {/* Use the translated title */}
+    <section id="about" className="relative py-20 sm:py-28 overflow-hidden">
+      {/* Subtle section divider */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#386c00]/20 to-transparent" />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Section label */}
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="h-px w-12 bg-[#386c00]/30" />
+          <span className="text-[#386c00] text-xs font-bold tracking-[0.2em] uppercase">Our Story</span>
+          <div className="h-px w-12 bg-[#386c00]/30" />
+        </div>
+
+        <h2 className="text-3xl sm:text-4xl font-bold text-center text-stone-900 dark:text-stone-50 mb-16 font-[family-name:var(--font-kantumruy)]">
           {t.AboutSection.title}
-          <hr className="w-6 h-1 mx-auto my-4 bg-[#e3edc9] border-0 rounded" />
-        </h1>
+        </h2>
 
-        {/* Content Grid */}
-        <div className="flex flex-col space-y-10 items-stretch justify-center align-top md:space-x-10 md:space-y-0 md:p-4 md:flex-row md:text-left">
-          {/* Left Column - Story */}
-          <div className="md:w-1/2">
-            <h1 className="text-center text-2xl font-bold mb-6 md:text-left text-[#386c00] font-[family-name:var(--font-kantumruy)]">
-              {/* Use the translated story title */}
-              {t.AboutSection.storyTitle}
-            </h1>
-            <p className="font-[family-name:var(--font-kantumruy)]">
-              {/* Use the translated story paragraph 1 */}
-              {t.AboutSection.storyParagraph1}
-            </p>
-            <br />
-            <p className="font-[family-name:var(--font-kantumruy)]">
-              {/* Use the translated story paragraph 2 */}
-              {t.AboutSection.storyParagraph2}
-            </p>
-            <br />
-            <p className="font-[family-name:var(--font-kantumruy)]">
-              {/* Use the translated story paragraph 3 */}
-              {t.AboutSection.storyParagraph3}
-            </p>
-            <br />
-            <p className="font-[family-name:var(--font-kantumruy)]">
-              {/* Use the translated mission statement */}
-              {t.AboutSection.missionStatement}
-            </p>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-          {/* Right Column - Image */}
-          <div className="md:w-1/2 flex justify-center">
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-md w-full">
+          {/* Image */}
+          <div className="relative">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-stone-900/10 aspect-[4/5]">
               <Image
-                src="/Untitled design (7).png" // Replace with your actual image path
+                src="/Untitled design (7).png"
                 alt="Matcha bowl craftsmanship"
-                width={600}
-                height={400}
-                className="w-full h-auto object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-900/30 via-transparent to-transparent" />
+            </div>
+
+            {/* Floating stats card */}
+            <div className="absolute -bottom-6 -right-4 sm:right-6 bg-white dark:bg-stone-900 rounded-2xl shadow-xl p-5 border border-stone-100 dark:border-stone-800">
+              <div className="flex gap-5">
+                {stats.map((stat) => (
+                  <div key={stat.label} className="text-center">
+                    <p className="text-xl font-bold text-[#386c00]">{stat.value}</p>
+                    <p className="text-[10px] text-stone-500 font-medium mt-0.5 whitespace-nowrap">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+
+          {/* Text */}
+          <div className="space-y-6 lg:pt-4">
+            <h3 className="text-2xl font-bold text-[#386c00] font-[family-name:var(--font-kantumruy)]">
+              {t.AboutSection.storyTitle}
+            </h3>
+
+            {[
+              t.AboutSection.storyParagraph1,
+              t.AboutSection.storyParagraph2,
+              t.AboutSection.storyParagraph3,
+            ].map((para, i) => (
+              <p
+                key={i}
+                className="text-stone-600 dark:text-stone-400 leading-relaxed font-[family-name:var(--font-kantumruy)]"
+              >
+                {para}
+              </p>
+            ))}
+
+            {/* Mission callout */}
+            <div className="mt-8 p-5 rounded-2xl bg-[#386c00]/8 dark:bg-[#386c00]/15 border-l-4 border-[#386c00]">
+              <p className="text-stone-800 dark:text-stone-200 font-medium leading-relaxed font-[family-name:var(--font-kantumruy)] text-sm italic">
+                "{t.AboutSection.missionStatement}"
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
