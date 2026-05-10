@@ -13,7 +13,13 @@ out/
 .env.local
 .env.*
 
-# Python
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python specific
 __pycache__/
 *.pyc
 *.pyo
@@ -32,13 +38,9 @@ nosetests.xml
 coverage.xml
 *.cover
 *.log
-.git/modules/
-.hypothesis/
-.pytest_cache/
-.mypy_cache/
+*.tmp
 
 # Logs
-logs/
 *.log
 
 # OS generated files
