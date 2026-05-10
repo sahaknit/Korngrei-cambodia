@@ -38,7 +38,7 @@ export default function AdminDashboard() {
   const [toast, setToast] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const showToast = (msg, type = "success") => {
+  const showToast = (msg: string, type: "success" | "error" = "success") => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3000);
   };
