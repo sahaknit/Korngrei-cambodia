@@ -328,7 +328,7 @@ function DashboardView({ stats, products, setView }) {
     <div>
       <div style={{ marginBottom: 28 }}>
         <h1 style={{ fontSize: 26, color: "#1a1a0f", margin: "0 0 4px", fontWeight: 400 }}>Dashboard</h1>
-        <p style={{ color: "#888", fontSize: 14, margin: 0 }}>Welcome back. Here's what's happening with your store.</p>
+        <p style={{ color: "#888", fontSize: 14, margin: 0 }}>Welcome back. Here&#39;s what&#39;s happening with your store.</p>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 28 }}>
@@ -622,7 +622,7 @@ function DeleteModal({ product, onConfirm, onCancel }) {
         <div style={{ fontSize: 28, marginBottom: 12, textAlign: "center" }}>⚠</div>
         <h2 style={{ textAlign: "center", margin: "0 0 8px", fontSize: 18, fontWeight: 400 }}>Delete Product?</h2>
         <p style={{ textAlign: "center", color: "#666", fontSize: 14, margin: "0 0 24px" }}>
-          You're about to permanently delete <strong>"{product?.name}"</strong>. This cannot be undone.
+          You&#39;re about to permanently delete &quot;<strong>{product?.name}</strong>&quot;. This cannot be undone.
         </p>
         <div style={{ display: "flex", gap: 12 }}>
           <button onClick={onCancel}
