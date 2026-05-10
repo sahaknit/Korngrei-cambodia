@@ -83,7 +83,7 @@ const AboutSection = () => {
             {/* Mission callout */}
             <div className="mt-8 p-5 rounded-2xl bg-[#386c00]/8 dark:bg-[#386c00]/15 border-l-4 border-[#386c00]">
               <p className="text-stone-800 dark:text-stone-200 font-medium leading-relaxed font-[family-name:var(--font-kantumruy)] text-sm italic">
-                "{t.AboutSection.missionStatement}"
+                &ldquo;{t.AboutSection.missionStatement}&rdquo;
               </p>
             </div>
           </div>
