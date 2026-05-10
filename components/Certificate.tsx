@@ -1,224 +1,227 @@
-// components/MatchaBowlListSection.tsx
 "use client";
 
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-// Removed SlideUp import as we are changing the layout
 import { BsCartPlus } from "react-icons/bs";
 import { useLanguage } from "components/context/LanguageContext";
 import { translations } from "@/lib/translations";
 
-// --- Simple type definitions for type safety within the component ---
 interface ProductTranslation {
   name: string;
   description: string;
-  // alt?: string; // Optional if used
 }
-
 interface ProductsObject {
   [key: number]: ProductTranslation | undefined;
 }
-
 interface ProductItem {
   id: number;
   name: string;
   price: string;
   description: string;
-  imageThumbnail: string; // Changed for clarity
-  alt: string;           // Added alt text property
+  imageThumbnail: string;
+  alt: string;
   link: string;
+  badge?: string;
 }
 
-// --- Matcha Bowl Products Data ---
 const matchaBowls: ProductItem[] = [
   {
     id: 1,
     name: "KBACH KHMER Matcha Bowl",
     price: "$18.00",
     description: "A handcrafted matcha bowl set featuring a traditional design. Perfect for daily tea rituals with its smooth finish and elegant curves.",
-    imageThumbnail: "/rum-bowl-kr.png", // --- YOUR THUMBNAIL IMAGE PATH ---
-    alt: "Classic Matcha Bowl Set Thumbnail", // --- SPECIFIC ALT TEXT ---
+    imageThumbnail: "/rum-bowl-kr.png",
+    alt: "Classic Matcha Bowl Set",
     link: "/shop/classic-matcha-bowl",
+    badge: "Best Seller",
   },
   {
     id: 2,
-    name: "Whish Holder Kbach Khmer",
+    name: "Whisk Holder Kbach Khmer",
     price: "$6.00",
     description: "A contemporary take on matcha bowls, combining sleek lines with natural textures. Ideal for modern tea enthusiasts.",
-    imageThumbnail: "/holder-kr.png", // --- YOUR THUMBNAIL IMAGE PATH ---
-    alt: "Modern Zen Matcha Bowl Thumbnail", // --- SPECIFIC ALT TEXT ---
+    imageThumbnail: "/holder-kr.png",
+    alt: "Whisk Holder",
     link: "/shop/modern-zen-matcha-bowl",
   },
-   {
+  {
     id: 3,
-    name: "bowl and holder Kbach Khmer",
-    price: "$6.00",
+    name: "Bowl & Holder Set",
+    price: "$23.00",
     description: "A contemporary take on matcha bowls, combining sleek lines with natural textures. Ideal for modern tea enthusiasts.",
-    imageThumbnail: "/set-holder-and-bowl-mini.png", // --- YOUR THUMBNAIL IMAGE PATH ---
-    alt: "Modern Zen Matcha Bowl Thumbnail", // --- SPECIFIC ALT TEXT ---
+    imageThumbnail: "/set-holder-and-bowl-mini.png",
+    alt: "Bowl and Holder Set",
     link: "/shop/modern-zen-matcha-bowl",
+    badge: "New",
   },
   {
     id: 4,
     name: "Bamboo Whisk",
     price: "$5.00",
-    description: "An exclusive ceremonial set, complete with a bamboo whisk, scoop, and premium matcha powder. Elevate your tea experience with this luxurious collection.",
-    imageThumbnail: "/whisk-kr.png", // --- YOUR THUMBNAIL IMAGE PATH ---
-    alt: "Premium Ceremonial Set Thumbnail", // --- SPECIFIC ALT TEXT ---
+    description: "An exclusive ceremonial set, complete with a bamboo whisk. Elevate your tea experience with this luxurious tool.",
+    imageThumbnail: "/whisk-kr.png",
+    alt: "Bamboo Whisk",
     link: "/shop/premium-ceremonial-set",
   },
   {
     id: 5,
     name: "Bamboo Scoop",
     price: "$1.00",
-    description: "Compact and portable, this travel-friendly kit includes a mini matcha bowl, whisk, and scoop. Perfect for on-the-go tea lovers.",
-    imageThumbnail: "/scoop-kr.png", // --- YOUR THUMBNAIL IMAGE PATH ---
-    alt: "Travel-Friendly Matcha Kit Thumbnail", // --- SPECIFIC ALT TEXT ---
+    description: "Compact and portable, this travel-friendly scoop is perfect for on-the-go tea lovers.",
+    imageThumbnail: "/scoop-kr.png",
+    alt: "Bamboo Scoop",
     link: "/shop/travel-matcha-kit",
   },
   {
     id: 6,
     name: "Bamboo Spoon",
     price: "$3.50",
-    description: "Compact and portable, this travel-friendly kit includes a mini matcha bowl, whisk, and scoop. Perfect for on-the-go tea lovers.",
-    imageThumbnail: "/spoon-kr.png", // --- YOUR THUMBNAIL IMAGE PATH ---
-    alt: "Another Travel Kit Thumbnail", // --- SPECIFIC ALT TEXT ---
+    description: "Compact and portable, this travel-friendly spoon is perfect for on-the-go tea lovers.",
+    imageThumbnail: "/spoon-kr.png",
+    alt: "Bamboo Spoon",
     link: "/shop/travel-matcha-kit-2",
   },
   {
     id: 7,
-    name: "sifter",
+    name: "Sifter",
     price: "$1.50",
-    description: "Compact and portable, this travel-friendly kit includes a mini matcha bowl, whisk, and scoop. Perfect for on-the-go tea lovers.",
-    imageThumbnail: "/sifter-kr.png", // --- YOUR THUMBNAIL IMAGE PATH ---
-    alt: "Yet Another Kit Thumbnail", // --- SPECIFIC ALT TEXT ---
+    description: "Compact and portable, this travel-friendly sifter is perfect for on-the-go tea lovers.",
+    imageThumbnail: "/sifter-kr.png",
+    alt: "Sifter",
     link: "/shop/travel-matcha-kit-3",
   },
-   {
+  {
     id: 8,
-    name: "Matcha Whisk set",
+    name: "Matcha Whisk Set",
     price: "$8.00",
-    description: "Compact and portable, this travel-friendly kit includes a mini matcha bowl, whisk, and scoop. Perfect for on-the-go tea lovers.",
-    imageThumbnail: "/matcha-whisk-set.png", // --- YOUR THUMBNAIL IMAGE PATH ---
-    alt: "Yet Another Kit Thumbnail", // --- SPECIFIC ALT TEXT ---
+    description: "Compact and portable, this travel-friendly kit includes a mini matcha bowl, whisk, and scoop.",
+    imageThumbnail: "/matcha-whisk-set.png",
+    alt: "Matcha Whisk Set",
     link: "/shop/travel-matcha-kit-3",
+    badge: "Popular",
   },
-  
 ];
+
+const BADGE_COLORS: Record<string, string> = {
+  "Best Seller": "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
+  "New":         "bg-[#386c00]/12 text-[#386c00] dark:bg-[#386c00]/25 dark:text-[#8fba3a]",
+  "Popular":     "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+};
 
 const MatchaBowlListSection = () => {
   const { language } = useLanguage();
-  const t = translations[language] || translations['en']; // Fallback
+  const t = translations[language] || translations["en"];
 
-  // --- Defensive checks ---
-  if (!t) {
-    console.error(`[MatchaBowlListSectionitem] Translations object not found for language '${language}' or fallback 'en'.`);
+  if (!t?.MatchaBowlListSection) {
     return <div className="text-red-500 p-4">Error loading translations.</div>;
   }
 
-  if (!t.MatchaBowlListSection) {
-    console.error(`[MatchaBowlListSectionitem] MatchaBowlListSection translations not found for language '${language}'. Check translations.ts structure.`);
-    return <div className="text-red-500 p-4">Error loading section translations.</div>;
-  }
-
   return (
-    <section id="matcha-bowls" className="relative bg-transparent px-6 sm:px-12 lg:px-20 py-12">
-      {/* Section Header */}
-      <div className="text-center mb-12">
-        <h1 className="my-4 font-bold text-4xl text-[#386c00] dark:text-white font-[family-name:var(--font-kantumruy)]">
-          {t.MatchaBowlListSection.title}
-        </h1>
-        <hr className="w-6 h-1 mx-auto my-4 bg-[#e3edc9] border-0 rounded" />
-      </div>
+    <section id="matcha-bowls" className="relative py-24 sm:py-32 bg-[#f9fbf4] dark:bg-[#0a0a08]">
 
-      {/* --- NEW: HERO THUMBNAIL IMAGE --- */}
-      {/* Centered, large image with rounded corners and shadow */}
-     {/* --- HERO THUMBNAIL IMAGE --- */}
-<div className="flex justify-center mb-12">
-  <div className="relative w-full max-w-4xl h-96 rounded-2xl overflow-hidden shadow-xl">
-    {/* The container defines the size (w-full, max-w-4xl, h-96) */}
-    <Image
-      src="/Untitled design (14).png" // --- REPLACE with your actual hero image path ---
-      alt="Featured Matcha Set Collection" // --- REPLACE with descriptive alt text ---
-      fill // --- Tells Next.js to make the image fill the parent container ---
-      className="object-cover w-full h-full" // --- Ensures the image covers the space ---
-      priority
-      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1024px"
-    />
-  </div>
-</div>
-{/* --- END: HERO THUMBNAIL IMAGE --- */}
-      {/* --- END: HERO THUMBNAIL IMAGE --- */}
+      {/* Top divider */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#386c00]/20 to-transparent" />
 
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
 
-      {/* --- CHANGED GRID LAYOUT TO 2 ROWS x 3 COLS (Max 6 items) --- */}
-      {/* Grid: 1 column on mobile, 2 on small screens, 3 on medium and larger screens */}
-      {/* max-w-6xl ensures a reasonable maximum width for the grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {matchaBowls.map((bowl) => {
-          // --- Use type assertion to fix the TS error ---
-          const productsitem = t.productsitem as ProductsObject | undefined;
-          const translatedBowl = productsitem?.[bowl.id];
+        {/* Header */}
+        <div className="flex items-center justify-center gap-4 mb-5">
+          <div className="h-px w-10 bg-[#386c00]/25" />
+          <span className="text-[11px] font-bold tracking-[0.2em] text-[#386c00] uppercase">Products</span>
+          <div className="h-px w-10 bg-[#386c00]/25" />
+        </div>
 
-          return (
-            <div
-              key={bowl.id}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300 flex flex-col"
-            >
-              {/* --- Thumbnail Image --- */}
-              {/* Fixed height container for consistent grid rows */}
-              <div className="relative h-64 w-full">
-  <Link
-    href={bowl.link}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <Image
-      src={bowl.imageThumbnail}
-      alt={bowl.name}
-      layout="fill"
-      objectFit="cover"
-      className="rounded-lg transition-transform duration-300 group-hover:scale-105"
-    />
-  </Link>
-</div>
+        <div className="text-center mb-6">
+          <h2 className="text-[32px] sm:text-[40px] font-bold tracking-tight text-stone-900 dark:text-stone-50 font-[family-name:var(--font-kantumruy)]">
+            {t.MatchaBowlListSection.title}
+          </h2>
+        </div>
 
-              {/* --- Details Below Image --- */}
-              <div className="p-6 flex-grow flex flex-col justify-between">
-                <div>
-                  {/* Product Name */}
-                  <h2 className="text-xl font-bold mb-2 text-[#386c00] dark:text-white font-[family-name:var(--font-kantumruy)]">
-                    {/* Use translated name if available, fallback to default */}
-                    {translatedBowl?.name || bowl.name}
-                  </h2>
-                  {/* Product Price */}
-                  <p className="text-xl font-semibold text-[#386c00] dark:text-yellow-400 mb-3 font-[family-name:var(--font-kantumruy)]">
-                    {bowl.price}
-                  </p>
-                  {/* Product Description */}
-                  <p className="text-base leading-6 mb-4 text-neutral-600 dark:text-neutral-400 font-[family-name:var(--font-kantumruy)]">
-                    {/* Use translated description if available, fallback to default */}
-                    {translatedBowl?.description || bowl.description}
-                  </p>
-                </div>
-                {/* --- Shop Now Button (Always at the bottom) --- */}
-                <Link
-  href={bowl.link}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="inline-flex items-center justify-center w-full px-4 py-2 font-bold text-white transition-all duration-300 bg-[#386c00] hover:bg-[#2d5400] rounded-lg shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#386c00] focus:ring-offset-2 font-[family-name:var(--font-kantumruy)]"
->
-  <BsCartPlus size={18} className="mr-2" />
-  {/* Use translated button text if available, fallback to a default */}
-  {t.MatchaBowlListSection.buttonText || "Shop Now"}
-</Link>
-              </div>
+        {/* Hero banner */}
+        <div className="relative rounded-2xl overflow-hidden mb-14 h-52 sm:h-72 bg-[#e3edc9] dark:bg-[#1a2610]">
+          <Image
+            src="/Untitled design (14).png"
+            alt="Featured Matcha Set Collection"
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 768px) 100vw, 1200px"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-stone-900/50 via-stone-900/20 to-transparent flex items-center">
+            <div className="px-8 sm:px-12">
+              <p className="text-[11px] tracking-widest uppercase text-white/70 font-semibold mb-2">Featured Collection</p>
+              <p className="text-2xl sm:text-3xl font-bold text-white">Kbach Khmer Series</p>
             </div>
-          );
-        })}
+          </div>
+        </div>
+
+        {/* Products grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          {matchaBowls.map((bowl) => {
+            const productsitem = (t.productsitem as ProductsObject | undefined);
+            const translated = productsitem?.[bowl.id];
+
+            return (
+              <div
+                key={bowl.id}
+                className="group bg-white dark:bg-[#141410] rounded-2xl overflow-hidden border border-stone-100 dark:border-stone-800/50 hover:border-[#386c00]/30 hover:shadow-lg hover:shadow-[#386c00]/6 transition-all duration-300 flex flex-col"
+              >
+                {/* Image */}
+                <div className="relative aspect-square overflow-hidden bg-[#f3f8ea] dark:bg-[#1a2610]">
+                  {bowl.badge && (
+                    <div className={`absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full text-[10px] font-bold ${BADGE_COLORS[bowl.badge]}`}>
+                      {bowl.badge}
+                    </div>
+                  )}
+                  <Link href={bowl.link} target="_blank" rel="noopener noreferrer">
+                    <Image
+                      src={bowl.imageThumbnail}
+                      alt={bowl.alt}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    />
+                  </Link>
+                </div>
+
+                {/* Info */}
+                <div className="p-4 flex flex-col flex-1">
+                  <h3 className="text-[13px] sm:text-[14px] font-semibold text-stone-800 dark:text-stone-200 mb-1 leading-snug line-clamp-2 font-[family-name:var(--font-kantumruy)]">
+                    {translated?.name || bowl.name}
+                  </h3>
+                  <p className="text-[15px] font-bold text-[#386c00] mb-2">{bowl.price}</p>
+                  <p className="text-[12px] text-stone-500 dark:text-stone-500 leading-relaxed line-clamp-2 mb-4 flex-1 font-[family-name:var(--font-kantumruy)]">
+                    {translated?.description || bowl.description}
+                  </p>
+                  <Link
+                    href={bowl.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl bg-[#386c00]/8 hover:bg-[#386c00] text-[#386c00] hover:text-white text-[12px] font-semibold transition-all duration-200 font-[family-name:var(--font-kantumruy)]"
+                  >
+                    <BsCartPlus size={14} />
+                    {t.MatchaBowlListSection.buttonText || "Shop Now"}
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* View all CTA */}
+        <div className="text-center mt-12">
+          <Link
+            href="/shop"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-[#386c00]/30 text-[#386c00] dark:text-[#8fba3a] text-[14px] font-semibold hover:bg-[#386c00] hover:text-white hover:border-[#386c00] transition-all duration-200 font-[family-name:var(--font-kantumruy)]"
+          >
+            View All Products
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+        </div>
       </div>
-      {/* --- END OF CHANGED GRID LAYOUT --- */}
     </section>
   );
 };
