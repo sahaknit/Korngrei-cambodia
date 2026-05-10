@@ -34,8 +34,8 @@ export default function AdminDashboard() {
   const [search, setSearch] = useState("");
   const [filterCat, setFilterCat] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
-  const [deleteConfirm, setDeleteConfirm] = useState(null);
-  const [toast, setToast] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
+  const [toast, setToast] = useState<{ msg: string; type: "success" | "error" } | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const showToast = (msg: string, type: "success" | "error" = "success") => {
